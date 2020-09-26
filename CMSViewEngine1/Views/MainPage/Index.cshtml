@@ -1,0 +1,98 @@
+﻿@model IEnumerable<CMSViewEngine1.Models.VAL.MainPage>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+<div class="container">
+
+<h2>Index</h2>
+@if (TempData["SM"] != null || TempData["FM"] !=null)
+{
+    <div class="alert alert-success">@TempData["SM"]</div>
+    <div class="alert alert-danger">@TempData["FM"]</div>
+
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<br />
+    <div class="card bg-info text-white">
+        <div class="card-body" style="position:center;">
+@using (Html.BeginForm("Index", "MainPage", FormMethod.Post))
+{
+    <b> Search </b>
+    @Html.TextBox("search") @*<input type="submit" value=" Search" />*@
+@*} 
+
+@using (Html.BeginForm("Index", "MainPage", FormMethod.Post))
+{*@
+    
+    <b> Search By Page Type </b>
+    @Html.DropDownList("PageType","--Select Page Type--")
+    <input type="submit" value=" Search" />
+} 
+  </div>
+        </div>
+<br />
+
+<table class="table" id="table1">
+    <tr>
+        <th>
+           Page Type
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PageTitle)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Layout)
+        </th>*@
+        <th>Edit</th><th>Details</th><th>Delete</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageParent.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PageTitle)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Layout)
+        </td>*@
+        <td>
+        
+            @Html.ActionLink("Edit", "Edit","Content", new { id=item.Id }, null) 
+        
+</td>
+     <td>       @Html.ActionLink("Details", "Details", new { id=item.Id })</td>
+<td>            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+    @*<a href="/MainPage/Trunc">Delete All Data</a>*@
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/css")
+<script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table1').DataTable();
+    });
+    </script>
+    
+}
